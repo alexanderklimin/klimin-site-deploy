@@ -16,12 +16,6 @@ const altPath = (code) => {
   return hit ? new URL(hit[1]).pathname : code === "es" ? "/" : `/${code}`;
 };
 const current = languages.find(([code]) => code === page.locale)[1];
-const socials = [
-  ["Facebook", "https://www.facebook.com/klimin.marketing"],
-  ["Instagram", "https://www.instagram.com/klimin.marketing"],
-  ["YouTube", "https://www.youtube.com/@Klimin.Marketing"],
-  ["TikTok", "https://www.tiktok.com/@klimin.marketing"],
-];
 const ld = (s) => s.replace(/<\//g, "<\\/");
 // Shopify marks the footer link of the current page as active.
 const footerHtml = page.path
@@ -93,7 +87,7 @@ const footerHtml = page.path
               <summary>{current}</summary>
               <ul>{languages.map(([code, label]) => <li><a href={altPath(code)} hreflang={code} lang={code} aria-current={code === page.locale ? "true" : undefined}>{label}</a></li>)}</ul>
             </details>
-            <ul class="site-menu__social">{socials.map(([label, href]) => <li><a href={href} rel="noopener" target="_blank">{label}</a></li>)}</ul>
+            <Fragment set:html={nav.socialHtml} />
             </div>
           </div>
         </details>

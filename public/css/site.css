@@ -54,8 +54,8 @@ body { grid-template-rows: auto 1fr auto; }
   .site-menu__lang ul { position: absolute; left: 0; bottom: 100%; transform: translateY(-1rem); z-index: 2; list-style: none; margin: 0; padding: .5rem 0; min-width: 12rem; width: max-content; background: #fff; border: 1px solid rgba(18, 18, 18, .1); box-shadow: 0 4px 12px rgba(0, 0, 0, .1); }
   .site-menu__lang li a { display: block; padding: .95rem 2rem; color: #1a1a1a; text-decoration: none; font-size: 1.4rem; }
   .site-menu__lang a[aria-current="true"] { font-weight: 700; text-decoration: underline; }
-  .site-menu__social { list-style: none; margin: 1rem 1rem 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1.6rem; }
-  .site-menu__social a { color: #1a1a1a; text-decoration: none; font-size: 1.4rem; }
+  .site-menu__utility .list-social { justify-content: flex-start; margin: 1rem 0 0 -.25rem; padding: 0; list-style: none; }
+  .site-menu__utility .list-social__link { padding: 1.1rem; }
 }
 
 .shopify-policy__container { max-width: 80rem; margin: 0 auto; padding: 4rem 2rem; }

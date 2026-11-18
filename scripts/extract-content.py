@@ -169,7 +169,8 @@ for locale, prefix in LOCALES.items():
         if href not in seen:
             seen.add(href)
             menu.append([href, text(label)])
-    nav[locale] = {"menu": menu, "footerHtml": clean_footer(footer)}
+    social = re.search(r'<ul class="list-unstyled list-social footer__list-social".*?</ul>', footer, re.S).group(0)
+    nav[locale] = {"menu": menu, "footerHtml": clean_footer(footer), "socialHtml": social.replace(" footer__list-social", "")}
 
 logo = local_image("https://klimin.marketing/cdn/shop/files/Aleksandr_Klimin_Logo_8.png?width=600")
 json.dump({"pages": pages, "nav": nav, "logo": logo}, open(f"{GEN}/manifest.json", "w", encoding="utf8"), ensure_ascii=False, indent=1)
