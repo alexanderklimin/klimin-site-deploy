@@ -12,3 +12,4 @@
 - Трекинг (GA4, Google Ads, Meta pixel) включается только на домене klimin.marketing, на тестовом адресе выключен.
 - Форма подписки из подвала не перенесена: она отправляла данные в Shopify.
 - `scripts/verify.mjs`: сверка нового сайта со снимком старого, отчёт в `export/verify-report.json`.
+- Публикация как в astro-es (GitHub → Cloudflare): локальный git-репозиторий, отдельный deploy key `/root/.ssh/klimin_site_deploy`, host-алиас `github-klimin-site`, remote `alexanderklimin/klimin-site-deploy` (репозиторий создан пользователем).
