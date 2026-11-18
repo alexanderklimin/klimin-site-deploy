@@ -76,6 +76,8 @@ def clean_main(main):
     main = re.sub(r'(href|action)="https://(?:www\.)?klimin\.marketing(/[^"]*)?"', lambda m: f'{m.group(1)}="{m.group(2) or "/"}"', main)
     # Phones only: section gaps one third tighter. Desktop values live in their own @media rule.
     main = re.sub(r"(-padding\s*\{\s*padding-top:\s*calc\(\d+px\s*\*\s*)0\.75(\);\s*padding-bottom:\s*calc\(\d+px\s*\*\s*)0\.75(\))", r"\g<1>0.5\g<2>0.5\g<3>", main)
+    main = re.sub(r"(-padding\s*\{\s*padding-top:\s*)(\d+)(px;\s*padding-bottom:\s*)(\d+)(px;\s*\}\s*@media screen and \(min-width: 750px\))",
+                  lambda m: f"{m.group(1)}{round(int(m.group(2)) * 2 / 3)}{m.group(3)}{round(int(m.group(4)) * 2 / 3)}{m.group(5)}", main)
     # Blank lines at the end of a paragraph are hidden on phones by .trailing-breaks in site.css.
     main = re.sub(r"((?:<br\s*/?>\s*)+)</p>", r'<span class="trailing-breaks">\1</span></p>', main)
     return main
