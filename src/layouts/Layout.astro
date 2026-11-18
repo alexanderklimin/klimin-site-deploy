@@ -42,8 +42,10 @@ const ld = (s) => s.replace(/<\//g, "<\\/");
     {page.ogTitle && <meta name="twitter:title" content={page.ogTitle} />}
     {page.ogDescription && <meta name="twitter:description" content={page.ogDescription} />}
     <link rel="icon" href={manifest.logo} />
-    <link rel="preload" href="/fonts/assistant-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/assistant-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
+    {(page.locale === "ru"
+      ? ["source-sans-3-cyrillic-400-normal", "source-sans-3-cyrillic-700-normal", "source-sans-3-latin-400-normal", "source-sans-3-latin-700-normal"]
+      : ["assistant-latin-400-normal", "assistant-latin-700-normal"]
+    ).map((font) => <link rel="preload" href={`/fonts/${font}.woff2`} as="font" type="font/woff2" crossorigin />)}
     <link rel="stylesheet" href="/css/theme.css" />
     <link rel="stylesheet" href="/css/site.css" />
     {(page.jsonld || []).map((s) => <script type="application/ld+json" set:html={ld(s)} />)}

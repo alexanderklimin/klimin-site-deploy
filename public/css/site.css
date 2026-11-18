@@ -3,6 +3,12 @@
 /* Stable page changes: the font never swaps after paint, the scrollbar keeps its place. */
 @font-face { font-family: Assistant; font-style: normal; font-weight: 400; font-display: optional; src: url("/fonts/assistant-latin-400-normal.woff2") format("woff2"); }
 @font-face { font-family: Assistant; font-style: normal; font-weight: 700; font-display: optional; src: url("/fonts/assistant-latin-700-normal.woff2") format("woff2"); }
+/* Assistant has no Cyrillic. Source Sans 3 is the design it is based on, so Russian pages keep the same look. */
+@font-face { font-family: "Source Sans 3"; font-style: normal; font-weight: 400; font-display: optional; src: url("/fonts/source-sans-3-cyrillic-400-normal.woff2") format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Source Sans 3"; font-style: normal; font-weight: 700; font-display: optional; src: url("/fonts/source-sans-3-cyrillic-700-normal.woff2") format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Source Sans 3"; font-style: normal; font-weight: 400; font-display: optional; src: url("/fonts/source-sans-3-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Source Sans 3"; font-style: normal; font-weight: 700; font-display: optional; src: url("/fonts/source-sans-3-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+html[lang="ru"] { --font-body-family: "Source Sans 3", sans-serif; --font-heading-family: "Source Sans 3", sans-serif; }
 html { overflow-y: scroll; scroll-behavior: auto !important; -webkit-tap-highlight-color: transparent; }
 @view-transition { navigation: auto; }
 .site-header { view-transition-name: site-header; }
