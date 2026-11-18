@@ -99,7 +99,8 @@ const footerHtml = page.path
         </details>
       </div>
     </header>
-    <main id="MainContent" class="content-for-layout" role="main"><slot /></main>
+    {/* email_off keeps Cloudflare from replacing visible addresses with "[email protected]". */}
+    <main id="MainContent" class="content-for-layout" role="main"><Fragment set:html="<!--email_off-->" /><slot /><Fragment set:html="<!--/email_off-->" /></main>
     <Fragment set:html={footerHtml} />
     <script is:inline src="/js/fb_events.js" defer></script>
   </body>
