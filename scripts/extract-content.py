@@ -180,6 +180,8 @@ vars_css = max(re.findall(r"<style data-shopify>(.*?)</style>", re.search(r"<hea
 vars_css = re.sub(r"@font-face\s*\{.*?\}", "", vars_css, flags=re.S)
 footer_css = next(s for s in re.findall(r"<style\b[^>]*>(.*?)</style>", home, re.S) if re.search(r"\.footer\s*\{\s*margin-top", s))
 parts = [vars_css] + [open(f"{EXPORT}/theme/assets/{f}", encoding="utf8").read() for f in CSS_FILES] + [footer_css]
+# Shopify renders the menu link rules inline; without them footer links are underlined.
+parts.append(next(s for s in re.findall(r"<style\b[^>]*>(.*?)</style>", home, re.S) if ".list-menu--inline" in s))
 open(f"{PUBLIC}/css/theme.css", "w", encoding="utf8").write("\n".join(parts))
 shutil.copy(f"{EXPORT}/theme/assets/fb_events.js", f"{PUBLIC}/js/fb_events.js")
 

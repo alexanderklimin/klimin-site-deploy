@@ -23,6 +23,10 @@ const socials = [
   ["TikTok", "https://www.tiktok.com/@klimin.marketing"],
 ];
 const ld = (s) => s.replace(/<\//g, "<\\/");
+// Shopify marks the footer link of the current page as active.
+const footerHtml = page.path
+  ? nav.footerHtml.replace(new RegExp(`(href="${page.path.replace(/[.*+?^${}()|[\]\\/-]/g, "\\$&")}"\\s+class="[^"]*list-menu__item--link)`), "$1 list-menu__item--active")
+  : nav.footerHtml;
 ---
 <!doctype html>
 <html class="js" lang={page.lang}>
@@ -83,7 +87,7 @@ const ld = (s) => s.replace(/<\//g, "<\\/");
         <details class="site-menu">
           <summary aria-label="Menu">☰</summary>
           <div class="site-menu__panel">
-            <nav>{nav.menu.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
+            <nav>{nav.menu.map(([href, label]) => <a href={href} aria-current={href === page.path ? "page" : undefined}>{label}</a>)}</nav>
             <div class="site-menu__utility">
             <details class="site-menu__lang">
               <summary>{current}</summary>
@@ -94,7 +98,7 @@ const ld = (s) => s.replace(/<\//g, "<\\/");
           </div>
         </details>
         <a class="site-logo" href={prefix || "/"}><img src={manifest.logo} alt="Aleksandr Klimin" width="300" height="44" /></a>
-        <nav class="site-nav">{nav.menu.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
+        <nav class="site-nav">{nav.menu.map(([href, label]) => <a href={href} aria-current={href === page.path ? "page" : undefined}>{label}</a>)}</nav>
         <details class="site-lang">
           <summary>{current}</summary>
           <ul>{languages.map(([code, label]) => <li><a href={altPath(code)} hreflang={code} lang={code} aria-current={code === page.locale ? "true" : undefined}>{label}</a></li>)}</ul>
@@ -102,7 +106,7 @@ const ld = (s) => s.replace(/<\//g, "<\\/");
       </div>
     </header>
     <main id="MainContent" class="content-for-layout" role="main"><slot /></main>
-    <Fragment set:html={nav.footerHtml} />
+    <Fragment set:html={footerHtml} />
     <script is:inline src="/js/fb_events.js" defer></script>
   </body>
 </html>

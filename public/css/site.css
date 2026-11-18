@@ -15,7 +15,7 @@ html { overflow-y: scroll; scroll-behavior: auto !important; -webkit-tap-highlig
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .12s; }
 @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
 
-.site-header { background: #fff; border-bottom: 1px solid rgba(0, 0, 0, .08); position: relative; z-index: 20; }
+.site-header { background: #fff; position: relative; z-index: 20; }
 .site-header__inner { max-width: 100rem; margin: 0 auto; padding: 2rem 3rem; display: flex; align-items: center; gap: 3.2rem; }
 .site-logo { display: block; line-height: 0; }
 .site-logo img { width: 22rem; max-width: calc(100vw - 12rem); height: auto; }
@@ -25,8 +25,10 @@ body { grid-template-rows: auto 1fr auto; }
 .site-nav { display: flex; gap: 2.4rem; }
 .site-nav a, .site-menu nav a, .site-lang a, .site-lang summary { color: #1a1a1a; text-decoration: none; font-size: 1.6rem; }
 .site-nav a:hover, .site-menu nav a:hover, .site-lang a:hover { text-decoration: underline; text-underline-offset: .3rem; }
-.site-nav a { font-size: 20px; }
+.site-nav a { font-size: 20px; color: rgba(var(--color-foreground), .75); }
+.site-nav a[aria-current="page"] { color: rgb(var(--color-foreground)); text-decoration: underline; text-underline-offset: .3rem; }
 .site-nav a:hover { color: #DF205C; }
+.site-menu nav a[aria-current="page"] { background: rgba(var(--color-foreground), .04); }
 .site-menu { display: none; }
 .site-lang { position: relative; margin-left: auto; }
 .site-lang summary::after { content: " ▾"; }
