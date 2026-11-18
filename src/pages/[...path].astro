@@ -1,0 +1,17 @@
+---
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import Layout from "../layouts/Layout.astro";
+import manifest from "../generated/manifest.json";
+
+export function getStaticPaths() {
+  return manifest.pages.map((page) => ({
+    params: { path: page.path === "/" ? undefined : page.path.slice(1) },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const body = readFileSync(join(process.cwd(), "src/generated/html", page.file), "utf8");
+---
+<Layout page={page}><Fragment set:html={body} /></Layout>

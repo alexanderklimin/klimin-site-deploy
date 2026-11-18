@@ -1,0 +1,98 @@
+---
+import "@fontsource/assistant/400.css";
+import "@fontsource/assistant/700.css";
+import manifest from "../generated/manifest.json";
+
+const { page } = Astro.props;
+const nav = manifest.nav[page.locale];
+const prefix = page.locale === "es" ? "" : `/${page.locale}`;
+const languages = [["es", "Español"], ["en", "English"], ["pt", "Português"], ["ru", "Русский"]];
+const altPath = (code) => {
+  const hit = (page.hreflang || []).find(([lang]) => lang === code);
+  return hit ? new URL(hit[1]).pathname : code === "es" ? "/" : `/${code}`;
+};
+const current = languages.find(([code]) => code === page.locale)[1];
+const socials = [
+  ["Facebook", "https://www.facebook.com/klimin.marketing"],
+  ["Instagram", "https://www.instagram.com/klimin.marketing"],
+  ["YouTube", "https://www.youtube.com/@Klimin.Marketing"],
+  ["TikTok", "https://www.tiktok.com/@klimin.marketing"],
+];
+const ld = (s) => s.replace(/<\//g, "<\\/");
+---
+<!doctype html>
+<html class="js" lang={page.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="msvalidate.01" content="3594B343B4304547B195E9EB6AF6C8C7" />
+    <meta name="google-site-verification" content="dXtj-CT1_IZQdIVD2BKWU5VcPqk00JozTylzKmMz1bo" />
+    <title>{page.title}</title>
+    {page.description && <meta name="description" content={page.description} />}
+    {page.robots && <meta name="robots" content={page.robots} />}
+    {page.canonical && <link rel="canonical" href={page.canonical} />}
+    {(page.hreflang || []).map(([lang, href]) => <link rel="alternate" hreflang={lang} href={href} />)}
+    <meta property="og:site_name" content="Aleksandr Klimin" />
+    {page.canonical && <meta property="og:url" content={page.canonical} />}
+    {page.ogTitle && <meta property="og:title" content={page.ogTitle} />}
+    {page.ogType && <meta property="og:type" content={page.ogType} />}
+    {page.ogDescription && <meta property="og:description" content={page.ogDescription} />}
+    {page.ogImage && <meta property="og:image" content={page.ogImage} />}
+    {page.ogImage && <meta property="og:image:width" content="1200" />}
+    {page.ogImage && <meta property="og:image:height" content="628" />}
+    <meta name="twitter:card" content="summary_large_image" />
+    {page.ogTitle && <meta name="twitter:title" content={page.ogTitle} />}
+    {page.ogDescription && <meta name="twitter:description" content={page.ogDescription} />}
+    <link rel="icon" href={manifest.logo} />
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    {(page.jsonld || []).map((s) => <script type="application/ld+json" set:html={ld(s)} />)}
+    <script is:inline>
+      // Tracking runs only on the real domain, so previews do not pollute GA4, Google Ads or Meta.
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      if (/(^|\.)klimin\.marketing$/.test(location.hostname)) {
+        var g = document.createElement("script");
+        g.async = true;
+        g.src = "https://www.googletagmanager.com/gtag/js?id=G-2115718DKL";
+        document.head.appendChild(g);
+        gtag("js", new Date());
+        gtag("config", "G-2115718DKL");
+        gtag("config", "AW-17421566726");
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
+        fbq("init", "1637357763376756");
+        fbq("track", "PageView");
+      } else {
+        window.fbq = function () {};
+      }
+    </script>
+  </head>
+  <body class="gradient">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-logo" href={prefix || "/"}><img src={manifest.logo} alt="Aleksandr Klimin" width="300" height="44" /></a>
+        <nav class="site-nav">{nav.menu.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
+        <details class="site-menu">
+          <summary aria-label="Menu">☰</summary>
+          <nav>{nav.menu.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
+        </details>
+        <details class="site-lang">
+          <summary>{current}</summary>
+          <ul>{languages.map(([code, label]) => <li><a href={altPath(code)} hreflang={code} lang={code} aria-current={code === page.locale ? "true" : undefined}>{label}</a></li>)}</ul>
+        </details>
+      </div>
+    </header>
+    <main id="MainContent" class="content-for-layout" role="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div>
+          <h2>{nav.footerHeading}</h2>
+          <ul>{nav.footer.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul>
+        </div>
+        <ul class="site-footer__social">{socials.map(([label, href]) => <li><a href={href} rel="noopener" target="_blank">{label}</a></li>)}</ul>
+      </div>
+      <p class="site-footer__copy">© 2023-2026 Klimin Marketing SpA</p>
+    </footer>
+    <script is:inline src="/js/fb_events.js" defer></script>
+  </body>
+</html>

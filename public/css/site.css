@@ -1,0 +1,40 @@
+/* Header, footer and small fixes for content carried over from the Dawn theme. */
+.site-header { background: #fff; border-bottom: 1px solid rgba(0, 0, 0, .08); position: relative; z-index: 20; }
+.site-header__inner { max-width: 120rem; margin: 0 auto; padding: 1.2rem 2rem; display: flex; align-items: center; gap: 2rem; }
+.site-logo { margin-right: auto; display: block; line-height: 0; }
+.site-logo img { width: 22rem; max-width: 50vw; height: auto; }
+.site-header summary { cursor: pointer; list-style: none; }
+.site-header summary::-webkit-details-marker { display: none; }
+body { grid-template-rows: auto 1fr auto; }
+.site-nav { display: flex; gap: 2.4rem; }
+.site-nav a, .site-menu nav a, .site-lang a, .site-lang summary { color: #1a1a1a; text-decoration: none; font-size: 1.6rem; }
+.site-nav a:hover, .site-menu nav a:hover, .site-lang a:hover { text-decoration: underline; }
+.site-menu { display: none; }
+.site-lang { position: relative; }
+.site-lang summary::after { content: " ▾"; }
+.site-lang ul { position: absolute; right: 0; top: calc(100% + .8rem); margin: 0; padding: .8rem 0; list-style: none; background: #fff; border: 1px solid rgba(0, 0, 0, .12); border-radius: .8rem; min-width: 14rem; box-shadow: 0 4px 16px rgba(0, 0, 0, .1); }
+.site-lang li a { display: block; padding: .6rem 1.6rem; }
+.site-lang a[aria-current="true"] { font-weight: 700; }
+
+@media (max-width: 989px) {
+  .site-nav { display: none; }
+  .site-menu { display: block; order: 3; }
+  .site-menu summary { display: flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; font-size: 2.4rem; line-height: 1; }
+  .site-menu nav { position: absolute; left: 0; right: 0; top: 100%; display: flex; flex-direction: column; background: #fff; border-bottom: 1px solid rgba(0, 0, 0, .12); padding: .8rem 0; }
+  .site-menu nav a { padding: 1.2rem 2rem; }
+}
+
+.site-footer { background: #f7f7f7; border-top: 1px solid rgba(0, 0, 0, .08); padding: 3.2rem 2rem 2rem; font-size: 1.5rem; }
+.site-footer__inner { max-width: 120rem; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2.4rem; }
+.site-footer h2 { font-size: 1.8rem; margin: 0 0 1rem; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; }
+.site-footer li { margin-bottom: .6rem; }
+.site-footer a { color: #333; text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+.site-footer__social { display: flex; flex-wrap: wrap; gap: 1.6rem; }
+.site-footer__copy { max-width: 120rem; margin: 2.4rem auto 0; color: #666; font-size: 1.3rem; }
+
+.shopify-policy__container { max-width: 80rem; margin: 0 auto; padding: 4rem 2rem; }
+.shopify-policy__title { text-align: center; margin-bottom: 2.4rem; }
+.not-found { text-align: center; padding: 8rem 2rem; }
+.slider-buttons { display: none !important; }
