@@ -38,18 +38,20 @@ body { grid-template-rows: auto 1fr auto; }
   .site-menu { display: block; grid-column: 1; }
   .site-logo { grid-column: 2; justify-self: center; }
   .site-menu summary { display: flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; font-size: 2.4rem; line-height: 1; }
-  .site-menu__panel { position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid rgba(0, 0, 0, .12); box-shadow: 0 8px 16px rgba(0, 0, 0, .08); padding: .8rem 0 1.6rem; }
-  .site-menu nav { display: flex; flex-direction: column; }
-  .site-menu nav a { padding: 1.2rem 2rem; font-size: 1.8rem; }
-  .site-menu__lang { margin: 1.2rem 2rem 0; padding-top: 1.2rem; border-top: 1px solid rgba(0, 0, 0, .08); }
-  .site-menu .site-menu__lang summary { display: inline-flex; width: auto; height: 4.4rem; gap: .6rem; font-size: 1.6rem; color: #1a1a1a; }
-  .site-menu__lang summary::after { content: "▾"; }
+  .site-menu__panel { position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid rgba(0, 0, 0, .12); box-shadow: 0 8px 16px rgba(0, 0, 0, .08); padding: .8rem 0 0; }
+  .site-menu nav { display: flex; flex-direction: column; padding-bottom: .8rem; }
+  .site-menu nav a { padding: 1.1rem 3rem; font-size: 1.8rem; }
+  /* Sizes below repeat the Dawn drawer: utility area, language button and its popup list. */
+  .site-menu__utility { background: rgba(18, 18, 18, .03); padding: 2rem 3rem; }
+  .site-menu__lang { position: relative; display: inline-block; margin: 0 1rem .5rem; }
+  .site-menu .site-menu__lang summary { position: relative; display: flex; justify-content: flex-start; width: auto; height: auto; min-height: 4rem; min-width: 7rem; padding: 0 4rem 0 2rem; background: #fff; font-size: 1.3rem; color: #1a1a1a; }
+  .site-menu__lang summary::after { content: "▾"; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); font-size: 1.1rem; }
   .site-menu__lang[open] summary::after { content: "▴"; }
-  .site-menu__lang ul { list-style: none; margin: 0; padding: 0; }
-  .site-menu__lang li a { display: block; padding: 1rem 0; color: #1a1a1a; text-decoration: none; font-size: 1.6rem; }
-  .site-menu__lang a[aria-current="true"] { font-weight: 700; }
-  .site-menu__social { list-style: none; margin: 1.2rem 2rem 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1.6rem; }
-  .site-menu__social a { color: #1a1a1a; text-decoration: none; font-size: 1.5rem; }
+  .site-menu__lang ul { position: absolute; left: 0; bottom: 100%; transform: translateY(-1rem); z-index: 2; list-style: none; margin: 0; padding: .5rem 0; min-width: 12rem; width: max-content; background: #fff; border: 1px solid rgba(18, 18, 18, .1); box-shadow: 0 4px 12px rgba(0, 0, 0, .1); }
+  .site-menu__lang li a { display: block; padding: .95rem 2rem; color: #1a1a1a; text-decoration: none; font-size: 1.4rem; }
+  .site-menu__lang a[aria-current="true"] { font-weight: 700; text-decoration: underline; }
+  .site-menu__social { list-style: none; margin: 1rem 1rem 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1.6rem; }
+  .site-menu__social a { color: #1a1a1a; text-decoration: none; font-size: 1.4rem; }
 }
 
 .site-footer { background: #f7f7f7; border-top: 1px solid rgba(0, 0, 0, .08); padding: 3.2rem 2rem 2rem; font-size: 1.5rem; }

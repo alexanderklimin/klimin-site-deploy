@@ -76,11 +76,13 @@ const ld = (s) => s.replace(/<\//g, "<\\/");
           <summary aria-label="Menu">☰</summary>
           <div class="site-menu__panel">
             <nav>{nav.menu.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
+            <div class="site-menu__utility">
             <details class="site-menu__lang">
               <summary>{current}</summary>
               <ul>{languages.map(([code, label]) => <li><a href={altPath(code)} hreflang={code} lang={code} aria-current={code === page.locale ? "true" : undefined}>{label}</a></li>)}</ul>
             </details>
             <ul class="site-menu__social">{socials.map(([label, href]) => <li><a href={href} rel="noopener" target="_blank">{label}</a></li>)}</ul>
+            </div>
           </div>
         </details>
         <a class="site-logo" href={prefix || "/"}><img src={manifest.logo} alt="Aleksandr Klimin" width="300" height="44" /></a>
