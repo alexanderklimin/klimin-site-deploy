@@ -14,3 +14,4 @@
 - `scripts/verify.mjs`: сверка нового сайта со снимком старого, отчёт в `export/verify-report.json`.
 - Публикация как в astro-es (GitHub → Cloudflare): локальный git-репозиторий, отдельный deploy key `/root/.ssh/klimin_site_deploy`, host-алиас `github-klimin-site`, remote `alexanderklimin/klimin-site-deploy` (репозиторий создан пользователем).
 - Проверка автопубликации GitHub → Cloudflare Pages: добавлен служебный файл `public/version.txt`.
+- Шапка как на Shopify: на компьютере меню рядом с логотипом, язык справа; на телефоне кнопка меню слева, логотип по центру, языки и соцсети внутри меню.
