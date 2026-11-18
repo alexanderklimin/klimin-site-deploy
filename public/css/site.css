@@ -24,7 +24,9 @@ html { overflow-y: scroll; scroll-behavior: auto !important; -webkit-tap-highlig
 body { grid-template-rows: auto 1fr auto; }
 .site-nav { display: flex; gap: 2.4rem; }
 .site-nav a, .site-menu nav a, .site-lang a, .site-lang summary { color: #1a1a1a; text-decoration: none; font-size: 1.6rem; }
-.site-nav a:hover, .site-menu nav a:hover, .site-lang a:hover { text-decoration: underline; }
+.site-nav a:hover, .site-menu nav a:hover, .site-lang a:hover { text-decoration: underline; text-underline-offset: .3rem; }
+.site-nav a { font-size: 20px; }
+.site-nav a:hover { color: #DF205C; }
 .site-menu { display: none; }
 .site-lang { position: relative; margin-left: auto; }
 .site-lang summary::after { content: " ▾"; }
