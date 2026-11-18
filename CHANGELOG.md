@@ -31,3 +31,4 @@
 - Сохранён полный экспорт DNS из Cloudflare: `export/dns-cloudflare.txt`. Пользователь удалил запись academy (Hotmart).
 - 2026-11-18: домен klimin.marketing переключён пользователем на Cloudflare Pages (custom domains, редирект www, Always Use HTTPS). Shopify не отключён.
 - Адреса почты на страницах защищены от замены Cloudflare (`email_off`).
+- Cloudflare (пользователь): разрешены боты ИИ для обучения, отключена синхронизация robots.txt. Проверено: `robots.txt` совпадает с файлом сайта, все проверенные боты получают 200.
