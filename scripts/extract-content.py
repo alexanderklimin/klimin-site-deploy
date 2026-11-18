@@ -173,7 +173,9 @@ for locale, prefix in LOCALES.items():
     nav[locale] = {"menu": menu, "footerHtml": clean_footer(footer), "socialHtml": social.replace(" footer__list-social", "")}
 
 logo = local_image("https://klimin.marketing/cdn/shop/files/Aleksandr_Klimin_Logo_8.png?width=600")
-json.dump({"pages": pages, "nav": nav, "logo": logo}, open(f"{GEN}/manifest.json", "w", encoding="utf8"), ensure_ascii=False, indent=1)
+header_html = open(f"{CRAWL}/index.html", encoding="utf8").read()
+icons = {n: re.search(rf'<svg\b[^>]*icon-{n}\b.*?</svg>', header_html, re.S).group(0) for n in ("hamburger", "close")}
+json.dump({"pages": pages, "nav": nav, "logo": logo, "icons": icons}, open(f"{GEN}/manifest.json", "w", encoding="utf8"), ensure_ascii=False, indent=1)
 
 # CSS: Dawn stylesheets plus the theme variables that Shopify rendered into <head>.
 home = open(f"{CRAWL}/index.html", encoding="utf8").read()

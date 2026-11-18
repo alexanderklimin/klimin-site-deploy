@@ -41,7 +41,10 @@ body { grid-template-rows: auto 1fr auto; }
   .site-nav, .site-lang { display: none; }
   .site-menu { display: block; grid-column: 1; }
   .site-logo { grid-column: 2; justify-self: center; }
-  .site-menu > summary { display: flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; font-size: 2.4rem; line-height: 1; }
+  .site-menu > summary { display: flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; color: rgb(var(--color-foreground)); }
+  .site-menu > summary svg { display: block; width: 2rem; height: 2rem; }
+  .site-menu__close, .site-menu[open] > summary .site-menu__open { display: none; }
+  .site-menu[open] > summary .site-menu__close { display: block; }
   .site-menu__panel { position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid rgba(0, 0, 0, .12); box-shadow: 0 8px 16px rgba(0, 0, 0, .08); padding: .8rem 0 0; }
   .site-menu nav { display: flex; flex-direction: column; padding-bottom: .8rem; }
   .site-menu nav a { padding: 1.1rem 3rem; font-size: 1.8rem; }

@@ -79,7 +79,7 @@ const footerHtml = page.path
     <header class="site-header">
       <div class="site-header__inner">
         <details class="site-menu">
-          <summary aria-label="Menu">☰</summary>
+          <summary aria-label="Menu"><span class="site-menu__open" set:html={manifest.icons.hamburger} /><span class="site-menu__close" set:html={manifest.icons.close} /></summary>
           <div class="site-menu__panel">
             <nav>{nav.menu.map(([href, label]) => <a href={href} aria-current={href === page.path ? "page" : undefined}>{label}</a>)}</nav>
             <div class="site-menu__utility">
