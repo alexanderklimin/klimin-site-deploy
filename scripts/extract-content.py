@@ -231,6 +231,14 @@ open(f"{PUBLIC}/sitemap.xml", "w", encoding="utf8").write(
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
     + "\n".join(entries) + "\n</urlset>\n")
 
+# Favicon: the same image Shopify served, in the sizes browsers and Google ask for.
+fav = urllib.parse.urlparse(html.unescape(re.search(r'<link[^>]+rel="(?:shortcut )?icon"[^>]*href="([^"]+)"', home).group(1)))
+for size in (32, 48, 180):
+    req = urllib.request.Request(f"https://klimin.marketing{fav.path}?width={size}&height={size}&crop=center",
+                                 headers={"User-Agent": "Mozilla/5.0 (compatible; site-migration-inventory)"})
+    with urllib.request.urlopen(req, timeout=40) as r:
+        open(f"{PUBLIC}/favicon-{size}.png", "wb").write(r.read())
+
 # Images.
 failed = []
 for local, url in sorted(downloads.items()):

@@ -47,7 +47,9 @@ const ld = (s) => s.replace(/<\//g, "<\\/");
     <meta name="twitter:card" content="summary_large_image" />
     {page.ogTitle && <meta name="twitter:title" content={page.ogTitle} />}
     {page.ogDescription && <meta name="twitter:description" content={page.ogDescription} />}
-    <link rel="icon" href={manifest.logo} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
     {(page.locale === "ru"
       ? ["source-sans-3-cyrillic-400-normal", "source-sans-3-cyrillic-700-normal", "source-sans-3-latin-400-normal", "source-sans-3-latin-700-normal"]
       : ["assistant-latin-400-normal", "assistant-latin-700-normal"]
