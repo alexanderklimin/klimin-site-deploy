@@ -194,6 +194,18 @@ open(f"{PUBLIC}/_headers", "w").write("""https://:project.pages.dev/*
 
 /img/*
   Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/css/*
+  Cache-Control: public, max-age=600
+
+/js/*
+  Cache-Control: public, max-age=600
 """)
 open(f"{PUBLIC}/robots.txt", "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n")
 

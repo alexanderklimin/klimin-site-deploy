@@ -9,7 +9,6 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@fontsource/assistant": "^5.2.8",
     "astro": "^7.4.12"
   },
   "devDependencies": {
