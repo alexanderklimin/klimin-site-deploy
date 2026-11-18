@@ -35,10 +35,15 @@ body { grid-template-rows: auto 1fr auto; }
   .site-menu__panel { position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid rgba(0, 0, 0, .12); box-shadow: 0 8px 16px rgba(0, 0, 0, .08); padding: .8rem 0 1.6rem; }
   .site-menu nav { display: flex; flex-direction: column; }
   .site-menu nav a { padding: 1.2rem 2rem; font-size: 1.8rem; }
-  .site-menu__langs, .site-menu__social { list-style: none; margin: 1.2rem 2rem 0; padding: 1.2rem 0 0; display: flex; flex-wrap: wrap; gap: 1.6rem; border-top: 1px solid rgba(0, 0, 0, .08); }
-  .site-menu__social { border-top: 0; padding-top: 0; }
-  .site-menu__langs a, .site-menu__social a { color: #1a1a1a; text-decoration: none; font-size: 1.5rem; }
-  .site-menu__langs a[aria-current="true"] { font-weight: 700; }
+  .site-menu__lang { margin: 1.2rem 2rem 0; padding-top: 1.2rem; border-top: 1px solid rgba(0, 0, 0, .08); }
+  .site-menu .site-menu__lang summary { display: inline-flex; width: auto; height: 4.4rem; gap: .6rem; font-size: 1.6rem; color: #1a1a1a; }
+  .site-menu__lang summary::after { content: "▾"; }
+  .site-menu__lang[open] summary::after { content: "▴"; }
+  .site-menu__lang ul { list-style: none; margin: 0; padding: 0; }
+  .site-menu__lang li a { display: block; padding: 1rem 0; color: #1a1a1a; text-decoration: none; font-size: 1.6rem; }
+  .site-menu__lang a[aria-current="true"] { font-weight: 700; }
+  .site-menu__social { list-style: none; margin: 1.2rem 2rem 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1.6rem; }
+  .site-menu__social a { color: #1a1a1a; text-decoration: none; font-size: 1.5rem; }
 }
 
 .site-footer { background: #f7f7f7; border-top: 1px solid rgba(0, 0, 0, .08); padding: 3.2rem 2rem 2rem; font-size: 1.5rem; }
