@@ -19,7 +19,8 @@ HANDLES = ["contact", "sobre-klimin", "sistema", "mi-track-record", "consultoria
 POLICIES = ["privacy-policy", "terms-of-service", "refund-policy", "shipping-policy", "contact-information"]
 CSS_FILES = ["base.css", "section-rich-text.css", "component-image-with-text.css", "section-multicolumn.css",
              "collapsible-content.css", "component-accordion.css", "section-image-banner.css",
-             "section-main-page.css", "component-slider.css"]
+             "section-main-page.css", "component-slider.css", "component-list-menu.css", "section-footer.css",
+             "component-list-social.css"]
 
 for d in (GEN, IMG):
     shutil.rmtree(d, ignore_errors=True)
@@ -146,7 +147,17 @@ for locale, prefix in LOCALES.items():
         open(f"{GEN}/html/{rec['file']}", "w", encoding="utf8").write(body)
         pages.append(rec)
 
-# Navigation and footer labels, taken from each language's own home page.
+
+def clean_footer(f):
+    """Original Shopify footer without the newsletter form and the empty payment row."""
+    f = re.sub(r'<div class="footer-block__newsletter">.*?</form>\s*</div>\s*', "", f, flags=re.S)
+    f = re.sub(r'<div class="footer__content-bottom-wrapper page-width">\s*<div class="footer__column footer__localization.*?(?=<div class="footer__content-bottom-wrapper page-width">)', "", f, flags=re.S)
+    f = re.sub(r"\s*data-cascade\b", "", f)
+    f = re.sub(r"\b(scroll-trigger(?:--[\w-]+)?|animate--[\w-]+)\b", "", f)
+    return re.sub(r'href="https://klimin\.marketing/"', 'href="/"', f)
+
+
+# Navigation and footer, taken from each language's own home page.
 nav = {}
 for locale, prefix in LOCALES.items():
     t = open(f"{CRAWL}/{crawl_name(prefix or '/')}.html", encoding="utf8").read()
@@ -158,8 +169,7 @@ for locale, prefix in LOCALES.items():
         if href not in seen:
             seen.add(href)
             menu.append([href, text(label)])
-    links = [[h, text(l)] for h, l in re.findall(r'<a\b[^>]*?href="([^"]+)"[^>]*?class="[^"]*list-menu__item--link[^"]*"[^>]*>(.*?)</a>', footer, re.S)]
-    nav[locale] = {"menu": menu, "footer": links, "footerHeading": text(re.search(r"<h2[^>]*>(.*?)</h2>", footer, re.S).group(1))}
+    nav[locale] = {"menu": menu, "footerHtml": clean_footer(footer)}
 
 logo = local_image("https://klimin.marketing/cdn/shop/files/Aleksandr_Klimin_Logo_8.png?width=600")
 json.dump({"pages": pages, "nav": nav, "logo": logo}, open(f"{GEN}/manifest.json", "w", encoding="utf8"), ensure_ascii=False, indent=1)
@@ -168,7 +178,8 @@ json.dump({"pages": pages, "nav": nav, "logo": logo}, open(f"{GEN}/manifest.json
 home = open(f"{CRAWL}/index.html", encoding="utf8").read()
 vars_css = max(re.findall(r"<style data-shopify>(.*?)</style>", re.search(r"<head\b.*?</head>", home, re.S).group(0), re.S), key=len)
 vars_css = re.sub(r"@font-face\s*\{.*?\}", "", vars_css, flags=re.S)
-parts = [vars_css] + [open(f"{EXPORT}/theme/assets/{f}", encoding="utf8").read() for f in CSS_FILES]
+footer_css = next(s for s in re.findall(r"<style\b[^>]*>(.*?)</style>", home, re.S) if re.search(r"\.footer\s*\{\s*margin-top", s))
+parts = [vars_css] + [open(f"{EXPORT}/theme/assets/{f}", encoding="utf8").read() for f in CSS_FILES] + [footer_css]
 open(f"{PUBLIC}/css/theme.css", "w", encoding="utf8").write("\n".join(parts))
 shutil.copy(f"{EXPORT}/theme/assets/fb_events.js", f"{PUBLIC}/js/fb_events.js")
 
