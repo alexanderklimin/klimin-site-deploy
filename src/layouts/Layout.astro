@@ -4,8 +4,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import manifest from "../generated/manifest.json";
 
-// The version changes with the file, so browsers never mix new pages with old cached styles.
-const css = (file) => `/css/${file}?v=${createHash("sha1").update(readFileSync(join(process.cwd(), "public/css", file))).digest("hex").slice(0, 10)}`;
+// Styles are inlined (no render-blocking request); the script URL changes with its content.
+const inlineCss = readFileSync(join(process.cwd(), "src/generated/site.min.css"), "utf8");
+const version = (file) => `${file}?v=${createHash("sha1").update(readFileSync(join(process.cwd(), "public", file))).digest("hex").slice(0, 10)}`;
 
 const { page } = Astro.props;
 const nav = manifest.nav[page.locale];
@@ -52,8 +53,7 @@ const footerHtml = page.path
       ? ["source-sans-3-cyrillic-400-normal", "source-sans-3-cyrillic-700-normal", "source-sans-3-latin-400-normal", "source-sans-3-latin-700-normal"]
       : ["assistant-latin-400-normal", "assistant-latin-700-normal"]
     ).map((font) => <link rel="preload" href={`/fonts/${font}.woff2`} as="font" type="font/woff2" crossorigin />)}
-    <link rel="stylesheet" href={css("theme.css")} />
-    <link rel="stylesheet" href={css("site.css")} />
+    <Fragment set:html={`<style>${inlineCss}</style>`} />
     {(page.jsonld || []).map((s) => <script type="application/ld+json" set:html={ld(s)} />)}
     <script is:inline>
       // Tracking runs only on the real domain, so previews do not pollute GA4, Google Ads or Meta.
@@ -102,6 +102,6 @@ const footerHtml = page.path
     {/* email_off keeps Cloudflare from replacing visible addresses with "[email protected]". */}
     <main id="MainContent" class="content-for-layout" role="main"><Fragment set:html="<!--email_off-->" /><slot /><Fragment set:html="<!--/email_off-->" /></main>
     <Fragment set:html={footerHtml} />
-    <script is:inline src="/js/fb_events.js" defer></script>
+    <script is:inline src={version("/js/fb_events.js")} defer></script>
   </body>
 </html>

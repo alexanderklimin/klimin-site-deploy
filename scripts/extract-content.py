@@ -4,7 +4,7 @@ Writes src/generated/, public/img, public/css, public/_redirects, public/_header
 public/robots.txt and public/sitemap.xml. Reads the live CDN only to fetch images.
 Run: python3 -I scripts/extract-content.py
 """
-import hashlib, html, json, os, re, shutil, time, urllib.parse, urllib.request
+import hashlib, html, json, os, re, shutil, subprocess, time, urllib.parse, urllib.request
 
 ROOT = "/opt/klimin-site"
 EXPORT = f"{ROOT}/export"
@@ -225,10 +225,10 @@ open(f"{PUBLIC}/_headers", "w").write("""https://:project.pages.dev/*
   Cache-Control: public, max-age=31536000, immutable
 
 /css/*
-  Cache-Control: public, max-age=600
+  Cache-Control: public, max-age=31536000, immutable
 
 /js/*
-  Cache-Control: public, max-age=600
+  Cache-Control: public, max-age=31536000, immutable
 """)
 open(f"{PUBLIC}/robots.txt", "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n")
 
@@ -249,23 +249,35 @@ open(f"{PUBLIC}/sitemap.xml", "w", encoding="utf8").write(
     + "\n".join(entries) + "\n</urlset>\n")
 
 # Favicon: the same image Shopify served, in the sizes browsers and Google ask for.
+# Files come from export/asset-cache; Shopify is only asked for files the cache does not have.
+CACHE = f"{EXPORT}/asset-cache"
+os.makedirs(f"{CACHE}/public", exist_ok=True)
+
+
+def fetch(path_in_cache, url):
+    """Return a cached copy; download it once (from the Shopify store domain) if missing."""
+    cached = f"{CACHE}/{path_in_cache}"
+    if not os.path.exists(cached):
+        url = url.replace("https://klimin.marketing/", "https://bd9007.myshopify.com/")
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; site-migration-inventory)"})
+        with urllib.request.urlopen(req, timeout=40) as r:
+            open(cached, "wb").write(r.read())
+        time.sleep(0.1)
+    return cached
+
+
 fav = urllib.parse.urlparse(html.unescape(re.search(r'<link[^>]+rel="(?:shortcut )?icon"[^>]*href="([^"]+)"', home).group(1)))
 for size in (32, 48, 180):
-    req = urllib.request.Request(f"https://klimin.marketing{fav.path}?width={size}&height={size}&crop=center",
-                                 headers={"User-Agent": "Mozilla/5.0 (compatible; site-migration-inventory)"})
-    with urllib.request.urlopen(req, timeout=40) as r:
-        open(f"{PUBLIC}/favicon-{size}.png", "wb").write(r.read())
+    shutil.copy(fetch(f"public/favicon-{size}.png", f"https://klimin.marketing{fav.path}?width={size}&height={size}&crop=center"),
+                f"{PUBLIC}/favicon-{size}.png")
 
 # Images.
 failed = []
 for local, url in sorted(downloads.items()):
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; site-migration-inventory)"})
-        with urllib.request.urlopen(req, timeout=40) as r:
-            open(f"{IMG}/{local}", "wb").write(r.read())
+        shutil.copy(fetch(local, url), f"{IMG}/{local}")
     except Exception as e:
         failed.append((local, str(e)))
-    time.sleep(0.1)
 
 left = {}
 for f in os.listdir(f"{GEN}/html"):
@@ -274,3 +286,6 @@ for f in os.listdir(f"{GEN}/html"):
         left[u[:110]] = left.get(u[:110], 0) + 1
 print(json.dumps({"pages": len(pages), "images": len(downloads), "imageFailures": failed, "redirectRules": len(dict.fromkeys(rules)),
                   "sitemapUrls": len(entries), "shopifyRefsLeft": left, "nav": nav["es"]}, ensure_ascii=False, indent=1))
+
+# WebP images and the inlined, purged stylesheet.
+subprocess.run(["node", f"{ROOT}/scripts/optimize-assets.mjs"], check=True)
